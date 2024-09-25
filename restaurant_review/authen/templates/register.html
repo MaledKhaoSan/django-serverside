@@ -1,0 +1,89 @@
+<!-- templates/authen/register.html -->
+{% extends "layout.html" %}
+
+{% block title %}
+    สมัครสมาชิก
+{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center my-28 bg-gray-100">
+    <div class="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
+        <h1 class="mb-6 text-2xl font-bold text-center text-gray-700">สมัครสมาชิก</h1>
+        <form method="post" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+            
+            <!-- File Upload Section for Profile Picture -->
+             
+            <!-- <div class="flex items-center space-x-4">
+                <label for="file" class="cursor-pointer">
+                    <div class="relative">
+                        <img id="profilePreview" src="https://via.placeholder.com/100" alt="Profile Picture Preview" class="w-16 h-16 rounded-full">
+                    </div>
+                </label> -->
+            <div class="flex justify-center items-center space-x-4">
+                <label for="file" class="cursor-pointer">
+                    <div class="relative ">
+                        <!-- Profile Picture Preview with Black Border -->
+                        <img id="profilePreview" src="https://as2.ftcdn.net/v2/jpg/05/65/22/41/1000_F_565224180_QNRiRQkf9Fw0dKRoZGwUknmmfk51SuSS.jpg" alt="Profile Picture Preview" class="w-28 h-28 rounded-full border-2 border-black">
+                        <!-- Hidden File Input -->
+                        <input id="file" type="file" name="profile_picture" class="hidden" accept="image/*" onchange="previewImage(event)">
+
+                    </div>
+                </label>
+            </div>
+        
+            <!-- Username Field -->
+            <div>
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+        
+            <!-- Password1 Field -->
+            <div>
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+            </div>
+        
+            <!-- Password2 Field -->
+            <div>
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+            </div>
+        
+            <!-- Submit Button -->
+            <div class="flex items-center justify-between">
+                <button type="submit" class="w-full px-4 py-2 font-bold text-white bg-blue-600 rounded hover:bg-blue-700">
+                    สมัครสมาชิก
+                </button>
+            </div>
+        </form>
+        
+
+        <!-- Separator Line with Text -->
+        <div class="flex items-center justify-center mt-6">
+            <div class="w-1/3 border-b border-gray-300"></div>
+            <div class="px-2 text-gray-500">หรือ</div>
+            <div class="w-1/3 border-b border-gray-300"></div>
+        </div>
+
+        <!-- Login Link -->
+        <div class="flex items-center justify-center mt-4">
+            <a id="signInLink" href="{% url 'login' %}" class="text-blue-600 hover:underline">
+                เข้าสู่ระบบ
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to show preview of selected profile image -->
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('profilePreview');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+{% endblock %}

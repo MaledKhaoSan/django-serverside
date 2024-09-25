@@ -1,0 +1,40 @@
+
+<div class="flex justify-around space-x-4 mb-4 operating-hour">
+    <!-- วัน -->
+    <select name="day_of_week[]" class="w-1/4 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        <option value="Monday">Monday</option>
+        <option value="Tuesday">Tuesday</option>
+        <option value="Wednesday">Wednesday</option>
+        <option value="Thursday">Thursday</option>
+        <option value="Friday">Friday</option>
+        <option value="Saturday">Saturday</option>
+        <option value="Sunday">Sunday</option>
+    </select>
+
+    <!-- เวลาเปิด -->
+    <select name="opening_time[]" class="w-1/4 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        <option value="00:00">00:00</option>
+        <option value="00:30">00:30</option>
+        <option value="01:00">01:00</option>
+        <option value="01:30">01:30</option>
+        <option value="02:00">02:00</option>
+        <!-- Continue adding time options as needed -->
+    </select>
+
+    <!-- เวลาปิด -->
+    <select name="closing_time[]" class="w-1/4 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        <option value="00:00">00:00</option>
+        <option value="00:30">00:30</option>
+        <option value="01:00">01:00</option>
+        <option value="01:30">01:30</option>
+        <option value="02:00">02:00</option>
+        <!-- Continue adding time options as needed -->
+    </select>
+    
+    <!-- ปุ่มลบ -->
+    <button type="button" class="remove-hour w-1/12 flex justify-center items-center px-1 py-1 text-red-500 hover:text-red-700 focus:outline-none">
+        <svg class="w-[24px] h-[24px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+          </svg>
+    </button>
+</div>

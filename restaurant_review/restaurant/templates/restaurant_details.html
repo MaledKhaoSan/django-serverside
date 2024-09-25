@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    ร้านอาหาร
+{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto p-6 bg-gray-100">
+    <!-- Grid Container for Header and Details Section -->
+    <div class="grid grid-cols-12 gap-4 mb-6">
+        <!-- Restaurant Header Section (60-65% width) -->
+        <div class="col-span-8 bg-white p-6 rounded-lg shadow-md">
+            <div class="flex justify-between items-start">
+                <!-- Restaurant Name and Badge -->
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900 mb-1">
+                        ก๋วยเตี๋ยวธัญรส สุขาภิบาล5 ต้นตำรับ หมูตุ๋น-เนื้อตุ๋น
+                    </h1>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-gray-700 text-base">ธัญรส สุขาภิบาล5 ต้นตำรับ หมูตุ๋น-เนื้อตุ๋น</span>
+                        <span class="text-gray-500">-</span>
+                        <div class="flex items-center space-x-1 bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded">
+                            <svg class="w-3 h-3" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 9.5L7.5 12L13.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                            </svg>
+                            <span>OFFICIAL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rating Section -->
+            <div class="flex justify-start items-center my-4">
+                <div class="flex items-center space-x-1 bg-red-500 text-white px-2 rounded">
+                    <span class="font-semibold text-sm">4.8</span>
+                    <svg class="w-3.5 h-3.5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/>
+                      </svg>
+                      
+                </div>
+                <div class="text-sm text-gray-500">(13 รีวิว)</div>
+            </div>
+
+            <!-- Restaurant Type and Status -->
+            <!-- <div class="flex justify-start items-center mt-4"> -->
+                <div class="text-sm font-semibold text-gray-800">ก๋วยเตี๋ยว | ฿</div>
+                <div class="text-red-500 text-sm">ปิดอยู่ <span class="text-gray-500">จะเปิดในเวลา 09:00</span></div>
+            <!-- </div> -->
+        </div>
+
+        <!-- Restaurant Details Section (35-40% width) -->
+        <div class="col-span-4 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-lg font-semibold mb-4">ข้อมูลร้าน</h2>
+            
+            <!-- Operating Hours and Other Details -->
+            <div class="flex flex-col space-y-4">
+                <!-- Delivery Information -->
+                <div class="flex items-center space-x-2">
+                    <span class="text-green-500 font-bold">✅</span>
+                    <span class="font-semibold text-gray-800">เดลิเวอรี</span>
+                </div>
+                
+                <!-- Price Range -->
+                <div>
+                    <div class="text-sm text-gray-600">ช่วงราคา</div>
+                    <div class="font-semibold text-gray-800">฿ (ต่ำกว่า 100 บาท)</div>
+                </div>
+
+                <!-- Delivery Operating Hours -->
+                <div>
+                    <div class="text-sm text-gray-600 mb-1">เวลาเปิด-ปิด เดลิเวอรี</div>
+                    <div class="text-sm text-gray-800">
+                        จันทร์ - อังคาร: 09:00 - 15:00<br>
+                        พฤหัสบดี - อาทิตย์: 09:00 - 15:00
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-between items-center mb-6">
+        <div class="flex space-x-4">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">เขียนรีวิว</button>
+            <button class="text-gray-500 hover:text-gray-700">เพิ่มรูป</button>
+            <button class="text-gray-500 hover:text-gray-700">เช็คอิน</button>
+            <button class="text-gray-500 hover:text-gray-700">แชร์</button>
+        </div>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">ส่ง</button>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-lg font-semibold mb-4">ข้อมูลเพิ่มเติม</h2>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <div class="font-semibold text-gray-800">ค้นหาร้านอื่นๆ ใกล้ๆ ร้านนี้</div>
+            </div>
+            <div>
+                <div class="font-semibold text-gray-800">แก้ไขข้อมูล</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
