@@ -40,17 +40,9 @@ DATABASES = {
 			"PASSWORD": "1234",
 			"HOST": "localhost",
 			"PORT": "5432",
-	},
-    'restaurant_db': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'restaurant_db',  # New database for restaurant-related models
-        'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+	}
 }
-DATABASE_ROUTERS = ['restaurant.routers.RestaurantRouter']
+# DATABASE_ROUTERS = ['restaurant.routers.RestaurantRouter']
 
 # Add app blogs to INSTALLED_APPS
 INSTALLED_APPS = [
@@ -68,7 +60,8 @@ INSTALLED_APPS = [
     "django_cotton",
     "authen",
     "reviews",
-    "restaurant"
+    "restaurant",
+    "me"
 ]
 
 LOGIN_URL = '/authen/'          
@@ -93,14 +86,21 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'restaurant_review.urls'
 
+# settings.py
+
+import os
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'api', 'templates'),  # Correct the path here
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -108,10 +108,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # เพิ่ม context processor
+                'api.nav_forms.restaurant_types',
             ],
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'restaurant_review.wsgi.application'
 

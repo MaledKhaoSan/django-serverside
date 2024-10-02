@@ -1,0 +1,55 @@
+{% load static %}
+<!-- {% load static tailwind_tags %} -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Website{% endblock %}</title>
+
+    <!-- Link to Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="{% static 'css/tailwind-built.css' %}" rel="stylesheet">
+
+    <!-- Flowbite CSS (if included manually) -->
+    <link href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Your Navbar or other content -->
+    {% block nav %}
+        {% include 'nav.html' %}
+    {% endblock %}
+
+    {% block subnav %}
+    {% endblock %}
+
+    <main class="container mx-auto mt-4">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-blue-500 text-white p-4 mt-4 text-center">
+        <p>&copy; 2024 My Website</p>
+    </footer>
+
+    <!-- Include Flowbite JavaScript -->
+    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.js"></script>
+</body>
+
+
+<style>
+    *{
+        font-family: "IBM Plex Sans Thai", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+    }
+</style>
+
+</html>

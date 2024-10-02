@@ -1,0 +1,180 @@
+<!-- restaurant_review/restaurant/templates/restaurant_edit.html -->
+{% extends "layout.html" %}
+
+{% block title %}
+    แก้ไขข้อมูลร้านอาหาร
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center text-2xl font-bold mb-4">แก้ไขข้อมูลร้านอาหาร</h1>
+
+<div class="flex justify-center">
+    <form method="post" class="w-full max-w-lg">
+        {% csrf_token %}
+        <h1 class="text-left text-sm font-bold mb-4 mt-9">ข้อมูลพื้นฐาน</h1>
+        <div class="bg-white p-6 rounded shadow-md my-5">
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">ชื่อร้าน</label>
+                <input required type="text" name="name" id="name" value="{{ form.name.value|default:restaurant.name }}" class="font-highlight w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+        
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">รูปแบบบริการ</label>
+
+                <div class="form-check my-2">
+                    <input type="checkbox" id="no_storefront" name="no_storefront" class="font-highlight mr-2 px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                           {% if form.no_storefront.value or restaurant.no_storefront %}checked{% endif %}>
+                    <label for="no_storefront">No Storefront</label>
+                </div>
+
+                <div class="form-check my-2">
+                    <input type="checkbox" id="storefront" name="storefront" class="font-highlight mr-2 px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                           {% if form.storefront.value or restaurant.storefront %}checked{% endif %}>
+                    <label for="storefront">Storefront</label>
+                </div>
+
+                <div class="form-check my-2">
+                    <input type="checkbox" id="delivery" name="delivery" class="font-highlight mr-2 px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                           {% if form.delivery.value or restaurant.delivery %}checked{% endif %}>
+                    <label for="delivery">Delivery</label>
+                </div>
+
+                <div class="form-check my-2">
+                    <input type="checkbox" id="pickup" name="pickup" class="font-highlight mr-2 px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                           {% if form.pickup.value or restaurant.pickup %}checked{% endif %}>
+                    <label for="pickup">Pickup</label>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="price_range" class="block text-sm font-medium text-gray-700">ช่วงราคา</label>
+                <select name="price_range" class="font-highlight w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    {% for choice in form.price_range.field.choices %}
+                        <option value="{{ choice.0 }}" {% if form.price_range.value == choice.0 or restaurant.price_range == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="restaurant_types" class="block text-sm font-medium text-gray-700">ประเภทของร้านอาหาร</label>
+                <div class="font-highlight w-full px-3 py-2 border border-gray-300 rounded-md overflow-y-auto max-h-52">
+                    {% for choice in form.restaurant_types.field.queryset %}
+                        <div class="mb-2">
+                            <label>
+                                <input type="checkbox" name="restaurant_types" value="{{ choice.pk }}" 
+                                       {% if choice.pk in form.restaurant_types.value or choice in restaurant.restaurant_types.all %}checked{% endif %}>
+                                {{ choice }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <label for="day_of_week" class="block text-sm font-medium my-3 text-gray-700">ช่วงเวลาเปิด-ปิด</label>
+            <div id="operating-hours-container">            
+                <!-- Template for adding a new operating hour -->
+                <template id="operating-hour-template">
+                    <div class="operating-hour flex space-x-4 mb-4">
+                        <select name="day_of_week[]" class="w-1/4 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                        </select>
+            
+                        <select name="opening_time[]" class="w-1/4 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <option value="00:00">00:00</option>
+                            <option value="00:30">00:30</option>
+                            <option value="01:00">01:00</option>
+                            <option value="01:30">01:30</option>
+                            <option value="02:00">02:00</option>
+                        </select>
+            
+                        <select name="closing_time[]" class="w-1/4 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <option value="00:00">00:00</option>
+                            <option value="00:30">00:30</option>
+                            <option value="01:00">01:00</option>
+                            <option value="01:30">01:30</option>
+                            <option value="02:00">02:00</option>
+                        </select>
+            
+                        <button type="button" class="remove-hour w-1/12 flex justify-center items-center px-1 py-1 text-red-500 hover:text-red-700 focus:outline-none">
+                            <svg class="w-[24px] h-[24px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </template>
+                
+                <!-- Add new operating hour button -->
+                <button type="button" id="add-operating-hour" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded my-4">
+                    เพิ่มช่วงเวลาเปิด-ปิด
+                </button>
+
+                <!-- Loop through existing operating hours -->
+                {% for hour in operating_hours %}
+                    <div class="operating-hour flex space-x-4 mb-4">
+                        <!-- Loop for day_of_week -->
+                        <select name="day_of_week[]" class="w-1/4 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            {% for day in hour.DAY_OF_WEEK_CHOICES %}
+                                <option value="{{ day.0 }}" {% if hour.day_of_week == day.0 %}selected{% endif %}>{{ day.1 }}</option>
+                            {% endfor %}
+                        </select>
+                        
+                        <!-- Loop for opening_time -->
+                        <select name="opening_time[]" class="w-1/4 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            {% for time in hour.TIME_CHOICES %}
+                                <option value="{{ time.0 }}" {% if hour.opening_time == time.0 %}selected{% endif %}>{{ time.1 }}</option>
+                            {% endfor %}
+                        </select>
+                        
+                        <!-- Loop for closing_time -->
+                        <select name="closing_time[]" class="w-1/4 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            {% for time in hour.TIME_CHOICES %}
+                                <option value="{{ time.0 }}" {% if hour.closing_time == time.0 %}selected{% endif %}>{{ time.1 }}</option>
+                            {% endfor %}
+                        </select>
+                        
+                        <!-- Remove button -->
+                        <button type="button" class="remove-hour w-1/12 flex justify-center items-center px-1 py-1 text-red-500 hover:text-red-700 focus:outline-none">
+                            <svg class="w-[24px] h-[24px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const addOperatingHourBtn = document.getElementById('add-operating-hour');
+                    const container = document.getElementById('operating-hours-container');
+                    const template = document.getElementById('operating-hour-template');
+            
+                    // Event listener to add new operating hour component
+                    addOperatingHourBtn.addEventListener('click', function() {
+                        const clone = template.content.cloneNode(true);  // Clone the template content
+                        container.appendChild(clone);
+                    });
+            
+                    // Remove operating hour row on clicking the remove button
+                    document.addEventListener('click', function(event) {
+                        if (event.target.closest('.remove-hour')) {
+                            event.target.closest('.operating-hour').remove();
+                        }
+                    });
+                });
+            </script>
+        </div>
+
+
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 mb-4 mt-9 text-white font-bold py-2 px-20 rounded">บันทึก</button>
+            <a href="{% url 'restaurant_delete' restaurant.id %}" class="bg-red-500 hover:bg-red-700 mb-4 mt-9 text-white font-bold py-2 px-14 rounded">ลบโพสต์</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

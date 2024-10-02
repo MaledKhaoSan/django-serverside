@@ -1,0 +1,319 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}
+    ร้านอาหาร
+{% endblock %}
+
+{% block subnav %}
+<div class=" bg-white mx-auto relative py-3 ">
+    
+
+<div id="simple-carousel" class="relative w-full">
+    <!-- Carousel wrapper -->
+    <div class="relative max-h-72 overflow-hidden rounded-lg md:h-80">
+        <div class="carousel-item absolute w-full transition-opacity duration-700 ease-in-out opacity-0">
+            <img src="{% static 'img/bestrestaurant.png' %}" class="object-center object-cover block w-full" alt="Image 1">
+        </div>
+        <div class="carousel-item absolute w-full transition-opacity duration-700 ease-in-out opacity-0">
+            <img src="{% static 'img/bestreviews.png' %}" class="object-center object-cover block w-full" alt="Image 2">
+        </div>
+    </div>
+
+    <!-- Slider indicators -->
+    <div class="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-3">
+        <button class="w-3 h-3 bg-gray-300 rounded-full" onclick="currentSlide(0)" aria-label="Slide 1"></button>
+        <button class="w-3 h-3 bg-gray-300 rounded-full" onclick="currentSlide(1)" aria-label="Slide 2"></button>
+    </div>
+
+    <!-- Slider controls -->
+    <button class="absolute top-0 left-0 z-10 flex items-center justify-center h-full px-4 group" onclick="prevSlide()">
+        <span class="inline-flex items-center justify-center w-10 h-10 bg-white rounded-full">
+            <svg class="w-6 h-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            <span class="sr-only">Previous</span>
+        </span>
+    </button>
+    <button class="absolute top-0 right-0 z-10 flex items-center justify-center h-full px-4 group" onclick="nextSlide()">
+        <span class="inline-flex items-center justify-center w-10 h-10 bg-white rounded-full">
+            <svg class="w-6 h-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <span class="sr-only">Next</span>
+        </span>
+    </button>
+</div>
+
+<script>
+    let currentSlideIndex = 0;
+const slides = document.querySelectorAll('.carousel-item');
+
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.style.opacity = i === index ? '1' : '0';
+    });
+}
+
+function nextSlide() {
+    currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+    showSlide(currentSlideIndex);
+}
+
+function prevSlide() {
+    currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+    showSlide(currentSlideIndex);
+}
+
+function currentSlide(index) {
+    currentSlideIndex = index;
+    showSlide(index);
+}
+
+// Show the first slide initially
+showSlide(currentSlideIndex);
+
+</script>
+
+
+    <!-- <hr class="border-t bg-gray-400 col-span-6"/>
+    <div class="col-start-2 col-span-4 my-2">
+        <span class="text-xs">หน้าแรก/ ร้านอาหาร/ ร้านอาหารในกรุงเทพและปริมณฑล/ ค้นหาร้านอาหาร</span>
+        <h1 class="font-medium text-xl my-2">ร้านอาหารยอดนิยมในกรุงเทพและปริมณฑล</h1>
+    </div> -->
+    
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto p-6 bg-gray-100">
+    <!-- Grid Container for Header and Details Section -->
+    <div class="grid grid-cols-12 gap-4 mb-6">
+        <!-- Restaurant Header Section (60-65% width) -->
+        <div class="col-start-3 col-span-8 grid gap-4">
+            <div class="bg-white p-6 rounded-lg shadow-md h-fit">
+                <section>
+                    <section>
+                        <div class="grid grid-cols-5 gap-3">
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="flex items-center gap-3 my-3 justify-between">
+                        <!-- Restaurant Name and Badge -->
+                        <h1 class="text-sm font-bold text-gray-900">
+                            ก๋วยเตี๋ยวธัญรส สุขาภิบาล5 ต้นตำรับ หมูตุ๋น-เนื้อตุ๋น
+                        </h1>
+                        
+
+                        <button class="text-gray-800 flex justify-center items-center space-x-1 px-2 py-0.5 h-fit rounded-lg">
+                            <svg class="text-gray-600 w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-700 s24"><path d="M12 15.8241L17 17.9669V5L7 5L7 17.9669L12 15.8241ZM5 21V5C5 3.89543 5.89543 3 7 3H17C18.1046 3 19 3.89543 19 5V21L12 18L5 21Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>                                        
+                        </button>
+                    </div>
+
+                    <div class="flex justify-start items-center">
+                        <div class="flex items-center space-x-1 bg-red-500 text-white px-2 rounded">
+                            <span class="font-semibold text-xs">4.8</span>
+                            <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/>
+                            </svg>
+                            
+                        </div>
+                        <div class="text-xs text-gray-500 mx-2">(13 รีวิว)</div>
+                        <div class="text-red-500 font-medium text-xs mr-5">ปิดอยู่</div>
+                    </div>
+    
+                    <!-- Restaurant Type and Status -->
+                    <div class="flex justify-start items-center mt-4">
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                    </div>
+                </section>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md h-fit">
+                <section>
+                    <section>
+                        <div class="grid grid-cols-5 gap-3">
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="flex items-center gap-3 my-3 justify-between">
+                        <!-- Restaurant Name and Badge -->
+                        <h1 class="text-sm font-bold text-gray-900">
+                            ก๋วยเตี๋ยวธัญรส สุขาภิบาล5 ต้นตำรับ หมูตุ๋น-เนื้อตุ๋น
+                        </h1>
+                        
+
+                        <button class="text-gray-800 flex justify-center items-center space-x-1 px-2 py-0.5 h-fit rounded-lg">
+                            <svg class="text-gray-600 w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-700 s24"><path d="M12 15.8241L17 17.9669V5L7 5L7 17.9669L12 15.8241ZM5 21V5C5 3.89543 5.89543 3 7 3H17C18.1046 3 19 3.89543 19 5V21L12 18L5 21Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>                                        
+                        </button>
+                    </div>
+
+                    <div class="flex justify-start items-center">
+                        <div class="flex items-center space-x-1 bg-red-500 text-white px-2 rounded">
+                            <span class="font-semibold text-xs">4.8</span>
+                            <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/>
+                            </svg>
+                            
+                        </div>
+                        <div class="text-xs text-gray-500 mx-2">(13 รีวิว)</div>
+                        <div class="text-red-500 font-medium text-xs mr-5">ปิดอยู่</div>
+                    </div>
+    
+                    <!-- Restaurant Type and Status -->
+                    <div class="flex justify-start items-center mt-4">
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                    </div>
+                </section>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md h-fit">
+                <section>
+                    <section>
+                        <div class="grid grid-cols-5 gap-3">
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="flex items-center gap-3 my-3 justify-between">
+                        <!-- Restaurant Name and Badge -->
+                        <h1 class="text-sm font-bold text-gray-900">
+                            ก๋วยเตี๋ยวธัญรส สุขาภิบาล5 ต้นตำรับ หมูตุ๋น-เนื้อตุ๋น
+                        </h1>
+                        
+
+                        <button class="text-gray-800 flex justify-center items-center space-x-1 px-2 py-0.5 h-fit rounded-lg">
+                            <svg class="text-gray-600 w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-700 s24"><path d="M12 15.8241L17 17.9669V5L7 5L7 17.9669L12 15.8241ZM5 21V5C5 3.89543 5.89543 3 7 3H17C18.1046 3 19 3.89543 19 5V21L12 18L5 21Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>                                        
+                        </button>
+                    </div>
+
+                    <div class="flex justify-start items-center">
+                        <div class="flex items-center space-x-1 bg-red-500 text-white px-2 rounded">
+                            <span class="font-semibold text-xs">4.8</span>
+                            <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/>
+                            </svg>
+                            
+                        </div>
+                        <div class="text-xs text-gray-500 mx-2">(13 รีวิว)</div>
+                        <div class="text-red-500 font-medium text-xs mr-5">ปิดอยู่</div>
+                    </div>
+    
+                    <!-- Restaurant Type and Status -->
+                    <div class="flex justify-start items-center mt-4">
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                    </div>
+                </section>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md h-fit">
+                <section>
+                    <section>
+                        <div class="grid grid-cols-5 gap-3">
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                            <div class="bg-red-600 col-span-1 m-auto rounded-md min-h-20 min-w-20 overflow-hidden">
+                                <img class="object-cover object-center" src="https://img.wongnai.com/p/140x140/2024/08/17/d9bf364e24be407786d6c51644bd78d0.jpg" alt="">
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="flex items-center gap-3 my-3 justify-between">
+                        <!-- Restaurant Name and Badge -->
+                        <h1 class="text-sm font-bold text-gray-900">
+                            ก๋วยเตี๋ยวธัญรส สุขาภิบาล5 ต้นตำรับ หมูตุ๋น-เนื้อตุ๋น
+                        </h1>
+                        
+
+                        <button class="text-gray-800 flex justify-center items-center space-x-1 px-2 py-0.5 h-fit rounded-lg">
+                            <svg class="text-gray-600 w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-700 s24"><path d="M12 15.8241L17 17.9669V5L7 5L7 17.9669L12 15.8241ZM5 21V5C5 3.89543 5.89543 3 7 3H17C18.1046 3 19 3.89543 19 5V21L12 18L5 21Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>                                        
+                        </button>
+                    </div>
+
+                    <div class="flex justify-start items-center">
+                        <div class="flex items-center space-x-1 bg-red-500 text-white px-2 rounded">
+                            <span class="font-semibold text-xs">4.8</span>
+                            <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/>
+                            </svg>
+                            
+                        </div>
+                        <div class="text-xs text-gray-500 mx-2">(13 รีวิว)</div>
+                        <div class="text-red-500 font-medium text-xs mr-5">ปิดอยู่</div>
+                    </div>
+    
+                    <!-- Restaurant Type and Status -->
+                    <div class="flex justify-start items-center mt-4">
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                        <span class="mx-1 text-xs font-medium">ก๋วยเตี๋ยว |</span>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

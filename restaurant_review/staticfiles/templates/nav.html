@@ -1,0 +1,133 @@
+{% load static %}
+<nav class="flex items-center justify-center p-4 px-20 bg-white shadow-md">
+    
+    <a class=" -mt-2.5 mr-9 cursor-pointer">
+        <img class="w-24 mx-auto" src="{% static 'img/restaurant_reviews_logo.jpg' %}" alt="Restaurant Reviews Logo">
+    </a>
+    <!-- Location and Search Section -->
+    <div class="flex items-center space-x-4">
+        <!-- Location Input -->
+
+        <div class="relative flex items-center border bg-[#F4F6F7] border-gray-300 rounded-md overflow-hidden">
+            <div class="bg-[#F4F6F7] h-10 flex items-center pl-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2C16.2 2 20 5.22 20 10.2C20 13.38 17.55 17.12 12.66 21.43C12.28 21.76 11.71 21.76 11.33 21.43C6.45 17.12 4 13.38 4 10.2C4 5.22 7.8 2 12 2Z" />
+                </svg>
+            </div>
+            <input type="text" placeholder="กรุงเทพมหานคร" class="bg-[#F4F6F7] focus:outline-none focus:ring-0 font-light border-0 text-gray-700 py-1 w-32" />
+            <div class="bg-[#F4F6F7] h-10 flex items-center pr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.1" d="m19 9-7 7-7-7"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Search Input -->
+        <div class="relative flex items-center border bg-[#F4F6F7] border-gray-300 rounded-md overflow-hidden">
+            <input type="text" placeholder="ร้านอาหาร ร้านใกล้เคียง..." class="bg-[#F4F6F7] focus:outline-none focus:ring-0 font-light border-0 text-gray-700 px-3 py-1" />
+            <div class="bg-blue-500 h-10 flex items-center px-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Login Section -->
+    {% if user.is_authenticated %}
+        <section class="grid grid-rows">
+            <div class="ml-24 flex items-center space-x-4">
+                <!-- Dropdown Menu -->
+                <div id="toggleContent" class="hidden z-10 absolute w-1/5 mt-80 -ml-20 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div class="py-3 px-3 relative" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+
+                        <div class="flex justify-start items-center gap-4 mb-4">
+                            {% if user.userprofile.profile_image %}
+                                <img id="profilePreview" class="w-14 h-14 object-cover object-center rounded-full border border-black" src="{{ user.userprofile.profile_image.url }}" alt="Profile Image">
+                            {% else %}
+                                <!-- ถ้าไม่มีรูปโปรไฟล์ แสดงรูปภาพเริ่มต้น -->
+                                <img id="profilePreview" class="w-14 h-14 object-cover object-center rounded-full border border-black" src="https://example.com/default-profile.jpg" alt="Default Profile Image">
+                            {% endif %}
+                            <span class="font-semibold text-lg pr-5">{{ user.username }}</span>
+                        </div>
+                        <hr class="border-t bg-gray-400 col-span-6"/>
+
+                        <div class="flex justify-around gap-2 my-3">
+                            
+                            <a href="/me" class="block bg-blue-500 rounded-lg w-1/2 text-center py-2 text-sm text-white hover:text-gray-100 hover:bg-blue-600" role="menuitem">
+                                <span class="font-semibold">ดูโปรไฟล์ของฉัน</span>
+                            </a>
+                            <a href="/me/edit" class="block bg-blue-500 rounded-lg w-1/2 text-center py-2 text-sm text-white hover:text-gray-100 hover:bg-blue-600" role="menuitem">
+                                <span class="font-semibold">ที่บันทึกไว้</span>
+                            </a>
+                        </div>
+
+                        <div class="text-sm flex-col flex gap-2 mt-5">
+                            <h1 class="text-gray-500 mb-3">อื่นๆ</h1>
+                            
+                            <a class="flex cursor-pointer text-gray-800 items-center">
+                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"/>
+                                </svg>
+                                <p class="px-4 font-medium text-sm">เพิ่มร้าน สถานที่</p>
+                            </a>
+
+                            <a class="flex cursor-pointer text-gray-800 items-center">
+                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                </svg>
+                                <p class="px-4 font-medium text-sm">ออกจากระบบ</p>
+                            </a>
+                        </div>
+
+
+                        
+                        <!-- <a href="/authen/logout" class="block py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Logout</a> -->
+                    </div>
+                </div>
+                <a href="/authen/login" class="flex items-center space-x-2 border border-gray-300 rounded-[25px] px-3 py-1">
+                    <div class="relative -ml-1.5">
+                        {% if user.userprofile.profile_image %}
+                            <img id="profilePreview" class="w-9 h-9 object-cover object-center rounded-full border border-black" src="{{ user.userprofile.profile_image.url }}" alt="Profile Image">
+                        {% else %}
+                            <!-- ถ้าไม่มีรูปโปรไฟล์ แสดงรูปภาพเริ่มต้น -->
+                            <img id="profilePreview" class="w-9 h-9 object-cover object-center rounded-full border border-black" src="https://example.com/default-profile.jpg" alt="Default Profile Image">
+                        {% endif %}
+                    </div>
+                    <span class="font-semibold pr-5">{{ user.username }}</span>
+                </a>
+
+                <!-- Dropdown Button -->
+                <button id="toggleButton" class="border border-gray-300 rounded-full p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+            </div>
+        </section>
+
+        
+    {% else %}
+        <div class="ml-24 flex items-center space-x-4">
+            <a href="/authen/login" class="flex items-center space-x-2 border border-gray-300 rounded-[25px] px-3 py-1">
+                <div class="relative -ml-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13.8333C14.4853 13.8333 16.5 11.8185 16.5 9.33325C16.5 6.84797 14.4853 4.83325 12 4.83325C9.51472 4.83325 7.5 6.84797 7.5 9.33325C7.5 11.8185 9.51472 13.8333 12 13.8333Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 21C18.3742 18.3488 16.0113 14.8333 11.9995 14.8333C7.98765 14.8333 5.62589 18.3488 4.5 21" />
+                    </svg>
+                </div>
+                <span class="font-semibold">เข้าสู่ระบบ</span>
+            </a>
+        </div>
+
+    {% endif %}
+
+    <!-- JavaScript for toggling -->
+    <script>
+        document.getElementById('toggleButton').addEventListener('click', function() {
+            var content = document.getElementById('toggleContent');
+            content.classList.toggle('hidden');
+        });
+    </script>
+</nav>

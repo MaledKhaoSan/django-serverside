@@ -20,13 +20,37 @@
             </div>
         
             <div class="mb-4">
-                <label for="service_type" class="block text-sm font-medium text-gray-700">รูปแบบบริการ</label>
-                <select name="service_type" class="font-highlight w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    {% for choice in form.service_type.field.choices %}
-                        <option value="{{ choice.0 }}" {% if form.service_type.value == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
-                    {% endfor %}
-                </select>
+                <label class="block text-sm font-medium text-gray-700">รูปแบบบริการ</label>
+            
+                <div class="form-check my-2">
+                    <input type="checkbox" id="no_storefront" name="no_storefront" 
+                           class="font-highlight mr-2 px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                           {% if form.no_storefront.value %}checked{% endif %}>
+                    <label for="no_storefront">No Storefront</label>
+                </div>
+            
+                <div class="form-check my-2">
+                    <input type="checkbox" id="storefront" name="storefront" 
+                           class="font-highlight mr-2 px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                           {% if form.storefront.value %}checked{% endif %}>
+                    <label for="storefront">Storefront</label>
+                </div>
+            
+                <div class="form-check my-2">
+                    <input type="checkbox" id="delivery" name="delivery" 
+                           class="font-highlight mr-2 px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                           {% if form.delivery.value %}checked{% endif %}>
+                    <label for="delivery">Delivery</label>
+                </div>
+            
+                <div class="form-check my-2">
+                    <input type="checkbox" id="pickup" name="pickup" 
+                           class="font-highlight mr-2 px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                           {% if form.pickup.value %}checked{% endif %}>
+                    <label for="pickup">Pickup</label>
+                </div>
             </div>
+            
         
             <div class="mb-4">
                 <label for="price_range" class="block text-sm font-medium text-gray-700">ช่วงราคา</label>
@@ -35,6 +59,11 @@
                         <option value="{{ choice.0 }}" {% if form.price_range.value == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
                     {% endfor %}
                 </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="phone" class="block text-sm font-medium text-gray-700">เบอร์โทรติดต่อ</label>
+                <input required type="text" name="phone" id="phone" value="{{ form.phone.value|default:'' }}" class="font-highlight w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div class="mb-4">
