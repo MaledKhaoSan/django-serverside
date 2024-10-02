@@ -3,7 +3,6 @@ from .views import *
 
 urlpatterns = [
     
-    
-    path('create/', ReviewsCreateView.as_view(), name='reviews_create'),
-    path('edit/', ReviewsEditView.as_view(), name='reviews_edit')
+    path('create/<int:id>/', ReviewsCreateView.as_view(), name='reviews_create'),
+    # path('edit/', ReviewsEditView.as_view(), name='reviews_edit'),
 ]

@@ -1,10 +1,41 @@
 {% extends "layout.html" %}
-
+{% load widget_tweaks %}
 {% block title %}
-    Home Page
+    Create Review
 {% endblock %}
 
 {% block content %}
-    <h1 class="text-3xl font-bold underline">Create</h1>
-    <p class="underline">create page.</p>
+    <h1 class="text-3xl font-bold underline">เขียนรีวิว</h1>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-4 mt-4">
+        {% csrf_token %}
+        
+        <div>
+            <label class="block text-gray-700 font-bold mb-2">{{ form.comment.label_tag }}</label>
+            {{ form.comment|add_class:"w-full p-2 border border-gray-300 rounded" }}
+        </div>
+
+        <div>
+            <label class="block text-gray-700 font-bold mb-2">ให้คะแนนร้านอาหารนี้</label>
+            <div class="flex flex-row-reverse justify-center space-x-reverse space-x-1"> 
+                {% for value, label in form.rating.field.choices %}
+                    <input type="radio" name="{{ form.rating.name }}" value="{{ value }}" id="star{{ value }}" 
+                           class="hidden peer star-radio" {% if form.rating.value == value|stringformat:"s" %}checked{% endif %}>
+                    <label for="star{{ value }}" 
+                           class="w-8 h-8 cursor-pointer bg-gray-300 peer-checked:bg-yellow-500 hover:bg-yellow-400 rounded-full flex items-center justify-center text-white transition">
+                        ★
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-gray-700 font-bold mb-2">{{ form.image.label_tag }}</label>
+            {{ form.image|add_class:"w-full p-2 border border-gray-300 rounded" }}
+        </div>
+        
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            บันทึก
+        </button>
+    </form>
 {% endblock %}
