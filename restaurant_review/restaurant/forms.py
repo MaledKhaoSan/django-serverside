@@ -10,8 +10,7 @@ class RestaurantCreateForm(forms.ModelForm):
 
     class Meta:
         model = Restaurant
-        # รวมฟิลด์ที่อยู่สำหรับการสร้าง
-        fields = ['name', 'price_range', 'no_storefront', 'storefront', 'delivery', 'pickup', 'province', 'district', 'subdistrict', 'latitude', 'longitude', 'restaurant_types']
+        fields = ['name', 'price_range', 'no_storefront', 'storefront', 'delivery', 'pickup', 'phone_number', 'province', 'district', 'subdistrict', 'latitude', 'longitude', 'restaurant_types']
 
 
 class RestaurantEditForm(forms.ModelForm):
@@ -23,7 +22,6 @@ class RestaurantEditForm(forms.ModelForm):
 
     class Meta:
         model = Restaurant
-        # ไม่รวมฟิลด์ที่อยู่
         fields = ['name', 'price_range', 'no_storefront', 'storefront', 'delivery', 'pickup', 'latitude', 'longitude', 'restaurant_types']
 
 # class RestaurantForm(forms.ModelForm):

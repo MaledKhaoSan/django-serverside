@@ -8,8 +8,8 @@
 {% block content %}
 <h1 class="text-center text-2xl font-bold mb-4">แก้ไขข้อมูลร้านอาหาร</h1>
 
-<div class="flex justify-center">
-    <form method="post" class="w-full max-w-lg">
+<div class="w-full max-w-lg mx-auto">
+    <form method="post" class="">
         {% csrf_token %}
         <h1 class="text-left text-sm font-bold mb-4 mt-9">ข้อมูลพื้นฐาน</h1>
         <div class="bg-white p-6 rounded shadow-md my-5">
@@ -168,13 +168,18 @@
                     });
                 });
             </script>
-        </div>
 
-
-        <div class="flex items-center justify-between">
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 mb-4 mt-9 text-white font-bold py-2 px-20 rounded">บันทึก</button>
-            <a href="{% url 'restaurant_delete' restaurant.id %}" class="bg-red-500 hover:bg-red-700 mb-4 mt-9 text-white font-bold py-2 px-14 rounded">ลบโพสต์</a>
+            <div class="flex items-center justify-center mx-auto">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 mb-4 mt-9 text-white font-bold py-2 px-20 rounded">บันทึก</button>      
+            </div>
         </div>
     </form>
+
+    <form action="{% url 'restaurant_delete' restaurant.id %}" method="post" onsubmit="return confirm('คุณแน่ใจหรือว่าต้องการลบร้านนี้?');" class="flex items-center justify-center">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-500 hover:bg-red-700 mb-4 mt-9 text-white font-bold py-2 px-14 rounded">
+            ลบโพสต์
+        </button>
+    </form>      
 </div>
 {% endblock %}

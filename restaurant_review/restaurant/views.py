@@ -7,6 +7,7 @@ from reviews.models import *
 from api.nav_forms import *
 
 
+
 class RestaurantMainView(View):
     def get(self, request):
         return render(request, 'restaurant_main.html')
@@ -44,11 +45,15 @@ class RestaurantDetailsView(View):
     def get(self, request, id):
         restaurant = Restaurant.objects.get(id=id)
         operating_hours = OperatingHour.objects.filter(restaurant=restaurant)
-        restaurant_types = restaurant.restaurant_types.all()  # Get all types for the restaurant
+        restaurant_types = restaurant.restaurant_types.all() 
+        reviews = Review.objects.filter(restaurant=restaurant).select_related('user')
+
         return render(request, 'restaurant_details.html', {
             'restaurant': restaurant,
             'operating_hours': operating_hours,
-            'restaurant_types': restaurant_types
+            'restaurant_types': restaurant_types,
+            'all_reviews': reviews,
+            'range': range(5),
         })
 
 
@@ -143,6 +148,7 @@ class RestaurantCreateView(LoginRequiredMixin, View):
             latitude = cleaned_data['latitude']
             longitude = cleaned_data['longitude']
             restaurant_types = cleaned_data['restaurant_types']
+            phone_number = cleaned_data['phone_number']
 
             # Boolean fields
             no_storefront = cleaned_data['no_storefront']
@@ -160,6 +166,7 @@ class RestaurantCreateView(LoginRequiredMixin, View):
                 storefront=storefront,
                 delivery=delivery,
                 pickup=pickup,
+                phone_number=phone_number,
                 province=cleaned_data['province'],
                 district=cleaned_data['district'],
                 subdistrict=cleaned_data['subdistrict'],
@@ -201,7 +208,14 @@ from django.shortcuts import redirect, render
 from reviews.models import Restaurant, OperatingHour
 from .forms import RestaurantCreateForm
 
-class RestaurantEditView(View):
+# Authentication
+from django.contrib.auth.mixins import LoginRequiredMixin
+# Permission
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
+class RestaurantEditView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = ["reviews.change_restaurant"]
     def get(self, request, id):
         restaurant = Restaurant.objects.get(id=id)
         operating_hours = OperatingHour.objects.filter(restaurant=restaurant)
@@ -248,20 +262,20 @@ class RestaurantEditView(View):
             'operating_hours': OperatingHour.objects.filter(restaurant=restaurant),  # ส่งคืนวันทำการเดิมในกรณีที่ form ไม่ valid
         })
 
-from django.core.exceptions import PermissionDenied
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 class RestaurantDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = ["reviews.delete_restaurant"]
-
-    def get(self, request, id):
+    def post(self, request, id):
         # ดึงร้านที่ต้องการลบ
         restaurant = Restaurant.objects.get(id=id)
+
         # ตรวจสอบว่าเป็นเจ้าของหรือไม่ ถ้าไม่ใช่ให้แสดง PermissionDenied
         if restaurant.user != request.user and not request.user.is_staff:
             raise PermissionDenied("คุณไม่มีสิทธิ์ในการลบร้านนี้")
 
         # ลบร้าน
         restaurant.delete()
+
         # Redirect ไปที่หน้ารายการร้านอาหารหลังจากลบเสร็จ
-        return redirect('restaurant_list')
+        return redirect('profile')
+

@@ -18,6 +18,7 @@ class ProfileView(View):
         return render(request, 'profile.html', {
             'user_reviews': user_reviews,
             'owned_restaurants': owned_restaurants,
+            'range': range(5),
         })
 
 
@@ -31,19 +32,5 @@ class ProfileBookMarkView(View):
     
 class ProfileEditView(View):
     def get(self, request):
-        # ดึงข้อมูลจาก auth.User และ UserProfile ที่เกี่ยวข้องกับ user ปัจจุบัน
-        user = request.user
-        user_profile = user.userprofile
-
-        # รวมข้อมูลจาก User และ UserProfile ใน object เดียว
-        context = {
-            'profiles': {
-                'username': user.username,
-                'email': user.email,
-                'phone': user_profile.phone_number,
-                'about_me': user_profile.about_me,
-                'profile_image': user_profile.profile_image
-            }
-        }
-
-        return render(request, 'profile_edit.html', context)
+        # ส่งข้อมูล request.user ไปยัง template โดยตรง
+        return render(request, 'profile_edit.html')

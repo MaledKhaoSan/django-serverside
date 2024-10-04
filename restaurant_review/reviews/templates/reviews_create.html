@@ -5,37 +5,128 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="text-3xl font-bold underline">เขียนรีวิว</h1>
+    <h1 class="text-center text-2xl font-bold mb-4">เขียนรีวิว</h1>
 
-    <form method="post" enctype="multipart/form-data" class="space-y-4 mt-4">
-        {% csrf_token %}
+    <div class="w-full max-w-xl mx-auto">
+            
+
         
-        <div>
-            <label class="block text-gray-700 font-bold mb-2">{{ form.comment.label_tag }}</label>
-            {{ form.comment|add_class:"w-full p-2 border border-gray-300 rounded" }}
-        </div>
+        <div class="bg-white p-6 rounded shadow-md my-5">
+            <div class="flex justify-start items-center gap-3">
+                <div class="w-28 h-28 bg-gray-400 rounded-lg overflow-hidden">
+                    <img src="" alt="">
+                </div>
 
-        <div>
-            <label class="block text-gray-700 font-bold mb-2">ให้คะแนนร้านอาหารนี้</label>
-            <div class="flex flex-row-reverse justify-center space-x-reverse space-x-1"> 
-                {% for value, label in form.rating.field.choices %}
-                    <input type="radio" name="{{ form.rating.name }}" value="{{ value }}" id="star{{ value }}" 
-                           class="hidden peer star-radio" {% if form.rating.value == value|stringformat:"s" %}checked{% endif %}>
-                    <label for="star{{ value }}" 
-                           class="w-8 h-8 cursor-pointer bg-gray-300 peer-checked:bg-yellow-500 hover:bg-yellow-400 rounded-full flex items-center justify-center text-white transition">
-                        ★
-                    </label>
-                {% endfor %}
+                <div>
+                    <div class="flex items-center gap-3 justify-between">
+                        <a href="{% url 'restaurant_details' restaurant.id %}"  class="flex justify-center items-center gap-4 cursor-pointer">
+                            <h1 class="text-base font-bold text-gray-900">
+                                {{ restaurant.name }}
+                            </h1>
+                            <div class="flex justify-center items-center space-x-1 bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded">
+                                <svg class="w-3 h-3" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 9.5L7.5 12L13.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+                                </svg>
+                                <span>OFFICIAL</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Rating Section -->
+                    <div class="flex justify-start items-center my-4">
+                        <div class="flex items-center space-x-1 bg-red-500 text-white px-2 rounded">
+                            <span class="font-semibold text-sm">4.8</span>
+                            <svg class="w-3.5 h-3.5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"/>
+                            </svg>
+                        </div>
+                        <div class="text-sm text-gray-500 mx-2">(13 รีวิว)</div>
+                    </div>
+
+                    <!-- Restaurant Type and Status -->
+                    <div class="flex justify-start items-center mt-4">
+                        {% for type in restaurant.restaurant_types.all %}
+                            <span class="text-xs">{{ type.name }}{% if not forloop.last %} |{% endif %}</span>
+                        {% endfor %}
+                    </div>
+
+                </div>
             </div>
+            
         </div>
+        <form method="post" enctype="multipart/form-data" class="">
+            {% csrf_token %}
+            <div class="bg-white p-6 rounded shadow-md my-5">
 
-        <div>
-            <label class="block text-gray-700 font-bold mb-2">{{ form.image.label_tag }}</label>
-            {{ form.image|add_class:"w-full p-2 border border-gray-300 rounded" }}
-        </div>
-        
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            บันทึก
-        </button>
-    </form>
+                <div class="my-3">
+                    <label class="block text-gray-700 font-bold mb-2">{{ form.title.label_tag }}</label>
+                    <input type="text" name="title" id="title" class="w-full p-2 border border-gray-300 rounded font-medium">
+                </div>
+            
+                <div>
+                    <label class="block text-gray-700 font-bold mb-2">{{ form.comment.label_tag }}</label>
+                    {{ form.comment|add_class:"w-full p-2 border border-gray-300 rounded" }}
+                </div>
+
+                <div class="my-3">
+                    <label class="block text-gray-700 font-bold mb-2">ให้คะแนนร้านอาหารนี้</label>
+                    <div class="flex flex-row-reverse justify-center space-x-1">
+                        {% for value, _ in form.rating.field.choices %}
+                            <input type="radio" name="{{ form.rating.name }}" value="{{ value }}" id="star{{ value }}" 
+                                class="hidden peer" {% if form.rating.value == value|stringformat:"s" %}checked{% endif %}>
+                            <label for="star{{ value }}" class="w-8 h-8 cursor-pointer bg-gray-300 peer-checked:bg-yellow-500 hover:bg-yellow-400 rounded-full flex items-center justify-center text-white transition">
+                                ★
+                            </label>
+                        {% endfor %}
+                    </div> 
+                </div>
+
+                <div>
+                    <!-- Image Upload Button with Styling -->
+                    <label class="block text-gray-700 font-bold mb-2">Upload Image</label>
+                    <input required type="file" name="image" id="image" class="w-full border border-gray-300 rounded" multiple onchange="previewImages()">
+                </div>
+                
+                <!-- Image Preview Area -->
+                <div id="image-preview" class="grid grid-cols-6 gap-4 mt-4">
+                    <!-- Image previews will appear here -->
+                     <!-- <img src="" class="object-cover object-center" alt=""> -->
+                </div>
+                
+            </div>
+
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                บันทึก
+            </button>
+        </form>
+    </div>
+    
+
+
+<!-- JavaScript for Handling Image Previews -->
+<script>
+    function previewImages() {
+        const preview = document.getElementById('image-preview');
+        const files = document.getElementById('image').files;
+
+        // Clear previous previews
+        preview.innerHTML = '';
+
+        // Loop through selected files and display each one
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'object-cover object-center h-full rounded-lg';
+                preview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+</script>
 {% endblock %}
+
+
+
+

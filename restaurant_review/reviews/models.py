@@ -30,10 +30,10 @@ class Restaurant(models.Model):
     pickup = models.BooleanField(default=False)
 
     PRICE_RANGE_CHOICES = [
-        ('LOW', 'Low'),
-        ('MEDIUM', 'Medium'),
-        ('HIGH', 'High'),
-        ('PREMIUM', 'Premium'),
+        ('LOW', 'ราคาต่ำกว่า 100 บาท'),
+        ('MEDIUM', 'ราคามากกว่า 100 บาท'),
+        ('HIGH', 'ราคามากกว่า 500 บาท'),
+        ('PREMIUM', 'ราคามากกว่า 1,000 บาท'),
     ]
 
     name = models.CharField(max_length=255)
@@ -41,6 +41,7 @@ class Restaurant(models.Model):
     province = models.CharField(max_length=100, default='Unknown')
     district = models.CharField(max_length=100, default='Unknown')
     subdistrict = models.CharField(max_length=100, default='Unknown')
+    phone_number = models.CharField(max_length=15)
 
     # Allow latitude and longitude to be nullable
     latitude = models.FloatField(null=True, blank=True)
@@ -115,6 +116,7 @@ class Review(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)  # Link to Restaurant
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Link to User who wrote the review
     rating = models.IntegerField()
+    title = models.CharField(max_length=255, default='Reviews Title')
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -135,7 +137,7 @@ class Favorite(models.Model):
 # Images associated with a review
 class ReviewImage(models.Model):
     review = models.ForeignKey(Review, on_delete=models.CASCADE)  # Link to Review
-    image_file = models.ImageField(upload_to='review_images/')
+    image_file = models.ImageField(upload_to='review_images/', null=True, blank=True)
     uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)  # Who uploaded the image
     uploaded_at = models.DateTimeField(auto_now_add=True)
 

@@ -1,37 +1,40 @@
 from django import forms
-from reviews.models import *
+from reviews.models import Review
 
-class ReviewCreateForm(forms.Form):
-    RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]  # ตัวเลือกสำหรับคะแนน 1-5
+# class ReviewCreateForm(forms.ModelForm):
+#     rating = forms.ChoiceField(
+#         choices=[(i, str(i)) for i in range(1, 6)],  # Ratings 1 to 5
+#         widget=forms.RadioSelect
+#     )
+#     images = forms.FileField(
+#         widget=forms.ClearableFileInput(attrs={'multiple': True}),
+#         required=False
+#     )
 
-    rating = forms.ChoiceField(
-        choices=RATING_CHOICES, 
-        required=True,
-        widget=forms.RadioSelect  # ใช้ RadioSelect widget เพื่อให้การแสดงผลเป็น radio buttons
-    )
-    comment = forms.CharField(widget=forms.Textarea, required=True)
-    image = forms.ImageField(required=False)
-
-
-# class ReviewEditForm(forms.ModelForm):
 #     class Meta:
-#         model = Review  # ใช้โมเดล Review
-#         fields = ['comment', 'rating']  # ใช้เฉพาะฟิลด์ comment และ rating
-        
-#         # ปรับแต่ง widget ของฟิลด์ในฟอร์ม
-#         widgets = {
-#             'comment': forms.Textarea(attrs={
-#                 'class': 'w-full p-2 border border-gray-300 rounded',
-#                 'placeholder': 'แสดงความคิดเห็นของคุณที่นี่...',
-#                 'rows': 5,
-#             }),
-#             'rating': forms.RadioSelect(choices=[(i, '★' * i) for i in range(1, 6)], attrs={
-#                 'class': 'star-radio',
-#             }),
-#         }
-        
-#         # กำหนด label สำหรับฟิลด์
-#         labels = {
-#             'comment': 'ความคิดเห็น',
-#             'rating': 'ให้คะแนนร้านอาหารนี้',
-#         }
+#         model = Review
+#         fields = ['rating', 'comment']
+
+
+class ReviewForm(forms.ModelForm):
+    RATING_CHOICES = [
+        (5, '5'),
+        (4, '4'),
+        (3, '3'),
+        (2, '2'),
+        (1, '1'),
+    ]
+    
+    rating = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        choices=RATING_CHOICES
+    )
+    
+    images = forms.FileField(
+        widget=forms.ClearableFileInput(attrs={'multiple': True}),
+        required=False
+    )
+
+    class Meta:
+        model = Review
+        fields = ['title', 'rating', 'comment']

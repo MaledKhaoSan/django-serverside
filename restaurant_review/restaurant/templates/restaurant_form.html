@@ -1,4 +1,6 @@
+<!-- restaurant_review/restaurant/templates/restaurant_form.html -->
 {% extends "layout.html" %}
+{% load static %}
 
 {% block title %}
     เพิ่มร้านอาหารใหม่
@@ -62,8 +64,8 @@
             </div>
 
             <div class="mb-4">
-                <label for="phone" class="block text-sm font-medium text-gray-700">เบอร์โทรติดต่อ</label>
-                <input required type="text" name="phone" id="phone" value="{{ form.phone.value|default:'' }}" class="font-highlight w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                <label for="phone_number" class="block text-sm font-medium text-gray-700">เบอร์โทรติดต่อ</label>
+                <input required type="text" name="phone_number" id="phone_number" value="{{ form.phone_number.value|default:'' }}" class="font-highlight w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <div class="mb-4">
@@ -164,201 +166,76 @@
         </div>
         
     
-    
-        
-        <h1 class="text-left text-sm font-bold mb-4 mt-9">ที่อยู่</h1>
+
         <div class="bg-white p-6 rounded shadow-md">
-            <div class="mb-4">
-                <label for="province" class="block text-sm font-medium text-gray-700">จังหวัด</label>
-                <select required id="province" name="province" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">เลือกจังหวัด</option>
-                    <!-- options will be dynamically populated by JS -->
-                </select>
+            <div class="flex justify-start items-center mt-9 mb-5 gap-10">
+                <h1 class="text-left text-sm font-bold">ที่อยู่</h1>
+                <p id="toggle-location" class="text-xs underline cursor-pointer">ใช้ Google Maps</p>
             </div>
-            
-            <div class="mb-4">
-                <label for="district" class="block text-sm font-medium text-gray-700">เขต/อำเภอ</label>
-                <select required id="district" name="district" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">เลือกเขต/อำเภอ</option>
-                </select>
-            </div>
-            
-            <div class="mb-4">
-                <label for="subdistrict" class="block text-sm font-medium text-gray-700">ตำบล</label>
-                <select required id="subdistrict" name="subdistrict" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">เลือกตำบล</option>
-                </select>
-            </div>            
-
-            <div id="map" class="pb-2" style="height: 200px; width: 100%;"></div>
-            <!-- Hidden fields to store the latitude and longitude -->
-            <input type="hidden" id="latitude" name="latitude" value="{{ form.latitude.value|default:'' }}">
-            <input type="hidden" id="longitude" name="longitude" value="{{ form.longitude.value|default:'' }}">
-
-
+        
+            <!-- Dropdown Location -->
+            <section id="dropdown-location">
+                <div class="mb-4">
+                    <label for="provinceDropdown" class="block text-sm font-medium text-gray-700">จังหวัด</label>
+                    <select id="provinceDropdown" name="provinceDropdown" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">เลือกจังหวัด</option>
+                    </select>
+                </div>
+        
+                <div class="mb-4">
+                    <label for="districtDropdown" class="block text-sm font-medium text-gray-700">เขต/อำเภอ</label>
+                    <select id="districtDropdown" name="districtDropdown" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">เลือกเขต/อำเภอ</option>
+                    </select>
+                </div>
+        
+                <div class="mb-4">
+                    <label for="subdistrictDropdown" class="block text-sm font-medium text-gray-700">ตำบล</label>
+                    <select id="subdistrictDropdown" name="subdistrictDropdown" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">เลือกตำบล</option>
+                    </select>
+                </div>
+            </section>
+        
+            <!-- Google Maps Location -->
+            <section id="googlemaps-picker-location" style="display:none;">
+                <!-- ปุ่มให้ผู้ใช้กดเพื่อหาตำแหน่งของตัวเอง -->
+                <a id="find-location-btn" class="text-blue-500 underline cursor-pointer mb-4 inline-flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8-8 8-8 8 3.59 8 8-3.59 8-8 8zM12 8c-1.1 0-2 .9-2 2h4c0-1.1-.9-2-2-2zm0 6c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2z"/>
+                    </svg>
+                    ใช้ตำแหน่งของฉัน
+                </a>
+        
+                <!-- แผนที่จะแสดงที่นี่ -->
+                <div id="map" class="w-full h-64"></div>
+            </section>
+        
+            <!-- Hidden fields สำหรับบันทึกข้อมูลจาก Google Maps -->
+            <section id="hidden-location-fields" style="display:none;">
+                <input type="hidden" id="id_latitude" name="latitude">
+                <input type="hidden" id="id_longitude" name="longitude">
+                <input type="hidden" id="id_province" name="province">
+                <input type="hidden" id="id_district" name="district">
+                <input type="hidden" id="id_subdistrict" name="subdistrict">
+            </section>
         </div>
-    
+        
+        
+        <!-- โหลด Google Maps API -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvte_IcXyAxq7Bwv_0MrmrmPaEwW89yFg&callback=initMap" async defer></script>
+        <script src="{% static 'js/googlemaps_location.js' %}" defer></script>
+        <script src="{% static 'js/location.js' %}"></script>
+        
+
+
+        
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 mb-4 mt-9 text-white font-bold py-2 px-14 rounded">
             บันทึก
         </button>
     </form>
         
 </div>
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const provinceSelect = document.getElementById("province");
-        const districtSelect = document.getElementById("district");
-        const subdistrictSelect = document.getElementById("subdistrict");
-
-        fetch("https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json")
-            .then(response => response.json())
-            .then(data => {
-                // เติมข้อมูลจังหวัดใน dropdown
-                data.forEach(province => {
-                    let option = new Option(province.name_th, province.id);
-                    provinceSelect.add(option);
-                });
-
-                // เมื่อเลือกจังหวัด
-                provinceSelect.addEventListener("change", function() {
-                    let provinceId = this.value;
-                    districtSelect.innerHTML = '<option value="">เลือกเขต/อำเภอ</option>'; // รีเซ็ตอำเภอ
-                    subdistrictSelect.innerHTML = '<option value="">เลือกตำบล</option>'; // รีเซ็ตตำบล
-
-                    let selectedProvince = data.find(province => province.id == provinceId);
-                    if (selectedProvince && selectedProvince.amphure) {
-                        selectedProvince.amphure.forEach(district => {
-                            let option = new Option(district.name_th, district.id);
-                            districtSelect.add(option);
-                        });
-                    }
-                });
-
-                // เมื่อเลือกอำเภอ
-                districtSelect.addEventListener("change", function() {
-                    let districtId = this.value;
-                    subdistrictSelect.innerHTML = '<option value="">เลือกตำบล</option>'; // รีเซ็ตตำบล
-
-                    let selectedProvince = data.find(province => province.id == provinceSelect.value);
-                    if (selectedProvince) {
-                        let selectedDistrict = selectedProvince.amphure.find(district => district.id == districtId);
-                        if (selectedDistrict && selectedDistrict.tambon) {
-                            selectedDistrict.tambon.forEach(subdistrict => {
-                                let option = new Option(subdistrict.name_th, subdistrict.id);
-                                subdistrictSelect.add(option);
-                            });
-                        }
-                    }
-                });
-            })
-            .catch(error => console.error("Error fetching data:", error));
-    });
-</script>
-
-<!-- Add Google Maps JavaScript API -->
-<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvte_IcXyAxq7Bwv_0MrmrmPaEwW89yFg&callback=initMap" async defer></script>
-
-<script>
-    let map;
-    let marker;
-
-    function initMap() {
-        // ตั้งค่าตำแหน่งเริ่มต้น (กรุงเทพ)
-        const initialLocation = { lat: 13.736717, lng: 100.523186 };
-
-        // สร้างแผนที่
-        map = new google.maps.Map(document.getElementById("map"), {
-            center: initialLocation,
-            zoom: 12,
-        });
-
-        // สร้าง Marker
-        marker = new google.maps.Marker({
-            map: map,
-            position: initialLocation,
-            draggable: true,
-            icon: {
-                path: google.maps.SymbolPath.CIRCLE,
-                scale: 10,
-                fillColor: "#FF0000",
-                fillOpacity: 1,
-                strokeWeight: 2,
-                strokeColor: "#FFFFFF",
-            }
-        });
-
-        // ฟังก์ชันเพื่ออัปเดตตำแหน่งของ Marker และเรียกใช้ Reverse Geocoding
-        function updateLocation(position) {
-            marker.setPosition(position);
-            map.setCenter(position);
-            document.getElementById("latitude").value = position.lat();
-            document.getElementById("longitude").value = position.lng();
-            geocodeLatLng(position);
-        }
-
-        // อัปเดตตำแหน่งเมื่อ Marker ถูกลาก
-        google.maps.event.addListener(marker, 'dragend', function () {
-            const position = marker.getPosition();
-            updateLocation(position);
-        });
-
-        // อัปเดตตำแหน่งเมื่อคลิกที่แผนที่
-        google.maps.event.addListener(map, 'click', function (event) {
-            const position = event.latLng;
-            updateLocation(position);
-        });
-    }
-
-    // ใช้ Google Geocoder API เพื่อหาจังหวัด อำเภอ และตำบล
-    function geocodeLatLng(position) {
-        const geocoder = new google.maps.Geocoder();
-
-        geocoder.geocode({ location: position }, (results, status) => {
-            if (status === "OK") {
-                if (results[0]) {
-                    const components = results[0].address_components;
-                    let province = "";
-                    let district = "";
-                    let subdistrict = "";
-
-                    // วนลูปเพื่อหาจังหวัด อำเภอ ตำบลจากผลลัพธ์
-                    components.forEach(component => {
-                        if (component.types.includes("administrative_area_level_1")) {
-                            province = component.long_name;
-                        } else if (component.types.includes("administrative_area_level_2")) {
-                            district = component.long_name;
-                        } else if (component.types.includes("sublocality_level_1") || component.types.includes("administrative_area_level_3")) {
-                            subdistrict = component.long_name;
-                        }
-                    });
-
-                    // อัปเดตค่าใน select options โดยตรง
-                    updateSelectOption("province", province);
-                    updateSelectOption("district", district);
-                    updateSelectOption("subdistrict", subdistrict);
-                }
-            } else {
-                console.error("Geocode failed due to: " + status);
-            }
-        });
-    }
-
-    // ฟังก์ชันเพื่ออัปเดต dropdown
-    function updateSelectOption(selectId, value) {
-        const select = document.getElementById(selectId);
-        const options = Array.from(select.options);
-        const matchedOption = options.find(option => option.text.includes(value));
-
-        if (matchedOption) {
-            select.value = matchedOption.value;
-        } else {
-            // ถ้าไม่มีค่าที่ตรงกันใน dropdown, สามารถเพิ่มออปชันใหม่ได้ (หรือตั้งค่าให้เป็นค่าแรก)
-            select.value = '';
-        }
-    }
-</script> -->
 {% endblock %}
 
 

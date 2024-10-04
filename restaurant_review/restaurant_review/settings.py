@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,7 +44,6 @@ DATABASES = {
 			"PORT": "5432",
 	}
 }
-# DATABASE_ROUTERS = ['restaurant.routers.RestaurantRouter']
 
 # Add app blogs to INSTALLED_APPS
 INSTALLED_APPS = [
@@ -62,12 +63,20 @@ INSTALLED_APPS = [
     "authen",
     "reviews",
     "restaurant",
-    "me"
+    "me",
+
+    'django.contrib.sites', # New
+    'allauth', # New
+    'allauth.account', # New
+    'allauth.socialaccount', # New 
+    'allauth.socialaccount.providers.google', # New
+
 ]
 
+
 LOGIN_URL = '/authen/'          
-LOGIN_REDIRECT_URL = '/reviews/'  
-LOGOUT_REDIRECT_URL = '/reviews/' 
+LOGIN_REDIRECT_URL = '/restaurant/'  
+LOGOUT_REDIRECT_URL = '/restaurant/' 
 
 # settings.py
 
@@ -87,6 +96,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
     
 ]
 
@@ -174,3 +184,23 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SITE_ID = 4
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+    }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}

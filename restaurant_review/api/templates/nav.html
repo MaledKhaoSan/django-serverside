@@ -93,7 +93,7 @@
                                 <img id="profilePreview" class="w-14 h-14 object-cover object-center rounded-full border border-black" src="{{ user.userprofile.profile_image.url }}" alt="Profile Image">
                             {% else %}
                                 <!-- ถ้าไม่มีรูปโปรไฟล์ แสดงรูปภาพเริ่มต้น -->
-                                <img id="profilePreview" class="w-14 h-14 object-cover object-center rounded-full border border-black" src="https://example.com/default-profile.jpg" alt="Default Profile Image">
+                                <img id="profilePreview" class="w-14 h-14 object-cover object-center rounded-full border border-black" src="{% static 'img/default_user_icon.png' %}" alt="Default Profile Image">
                             {% endif %}
                             <span class="font-semibold text-lg pr-5">{{ user.username }}</span>
                         </div>
@@ -112,7 +112,7 @@
                         <div class="text-sm flex-col flex gap-2 mt-5">
                             <h1 class="text-gray-500 mb-3">อื่นๆ</h1>
                             
-                            <a class="flex cursor-pointer text-gray-800 items-center">
+                            <a href="{% url 'restaurant_create' %}" class="flex cursor-pointer text-gray-800 items-center">
                                 <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"/>
                                 </svg>
@@ -138,7 +138,7 @@
                             <img id="profilePreview" class="w-9 h-9 object-cover object-center rounded-full border border-black" src="{{ user.userprofile.profile_image.url }}" alt="Profile Image">
                         {% else %}
                             <!-- ถ้าไม่มีรูปโปรไฟล์ แสดงรูปภาพเริ่มต้น -->
-                            <img id="profilePreview" class="w-9 h-9 object-cover object-center rounded-full border border-black" src="https://example.com/default-profile.jpg" alt="Default Profile Image">
+                            <img id="profilePreview" class="w-9 h-9 object-cover object-center rounded-full border border-black" src="{% static 'img/default_user_icon.png' %}" alt="Default Profile Image">
                         {% endif %}
                     </div>
                     <span class="font-semibold pr-5">{{ user.username }}</span>

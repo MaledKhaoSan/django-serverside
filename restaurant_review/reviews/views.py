@@ -1,17 +1,12 @@
-from django.views.generic import *
 from django.shortcuts import render, redirect
 from django.views import View
-from reviews.models import *
-from reviews.forms import ReviewCreateForm
-
-
-
-
+from reviews.models import Restaurant, Review, ReviewImage
+from reviews.forms import ReviewForm
 
 class ReviewsCreateView(View):
     def get(self, request, id):
         restaurant = Restaurant.objects.get(id=id)
-        form = ReviewCreateForm()
+        form = ReviewForm()
         return render(request, 'reviews_create.html', {
             'form': form,
             'restaurant': restaurant
@@ -19,47 +14,88 @@ class ReviewsCreateView(View):
 
     def post(self, request, id):
         restaurant = Restaurant.objects.get(id=id)
-        form = ReviewCreateForm(request.POST, request.FILES)
-        
-        if form.is_valid():
-            # สร้าง Review object จากข้อมูลที่ได้รับจากฟอร์ม
-            review = Review(
-                restaurant=restaurant,
-                user=request.user,  # กำหนด user ที่ล็อกอิน
-                rating=form.cleaned_data['rating'],
-                comment=form.cleaned_data['comment'],
-                # ตรวจสอบว่ามีการแนบรูปภาพหรือไม่
-                image=request.FILES.get('image', None)
-            )
-            review.save()  # บันทึกข้อมูลลงฐานข้อมูล
+        form = ReviewForm(request.POST, request.FILES)
 
-            # กลับไปที่หน้ารายละเอียดของร้านอาหาร
+        if form.is_valid():
+            # Save form แต่ยังไม่ commit, ให้มันบันทึก restaurant, user ก่อน
+            review = form.save(commit=False)
+            review.restaurant = restaurant
+            review.user = request.user
+            review.save()
+
+            # Handle multiple images
+            images = request.FILES.getlist('image')
+            for image in images:
+                ReviewImage.objects.create(
+                    review=review,
+                    image_file=image,
+                    uploaded_by=request.user
+                )
+
+            # Redirect to the restaurant details page after successful submission
             return redirect('restaurant_details', id=restaurant.id)
 
-        # ถ้า form ไม่ valid, render หน้าเดิมพร้อม error
         return render(request, 'reviews_create.html', {
             'form': form,
             'restaurant': restaurant
         })
     
-# class ReviewsEditView(TemplateView):
-#     template_name = 'reviews_edit.html'
-    
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-        
-#         # แทนที่การใช้ get_object_or_404 ด้วยการใช้ try-except
-#         try:
-#             review = Review.objects.get(pk=self.kwargs['pk'])  # ดึงข้อมูล Review โดยใช้ pk
-#         except Review.DoesNotExist:
-#             raise Http404("รีวิวนี้ไม่มีอยู่ในระบบ")
-        
-#         images = Image.objects.filter(review=review)  # ดึงรูปภาพที่เชื่อมกับรีวิวนี้
-        
-#         context['form'] = ReviewEditForm(instance=review)
-#         context['images'] = images  # ส่งข้อมูลรูปภาพไปยัง template
-#         return context
 
 
+class ReviewsEditView(View):
+    def get(self, request, id):
+        reviews = Review.objects.get(id=id)
+        restaurant = Restaurant.objects.get(id=reviews.restaurant.id)
+        form = ReviewForm(instance=reviews)  # Pass existing review data to the form
+        return render(request, 'reviews_edit.html', {
+            'form': form,
+            'reviews': reviews,
+            'restaurant': restaurant
+        })
 
+    def post(self, request, id):
+        reviews = Review.objects.get(id=id)
+        form = ReviewForm(request.POST, request.FILES, instance=reviews)  # Load form with existing review
+
+        if form.is_valid():
+            # ลบภาพที่มีอยู่แล้วก่อนบันทึกภาพใหม่
+            reviews.reviewimage_set.all().delete()
+
+            # บันทึกรีวิวที่ถูกแก้ไข
+            review = form.save()
+
+            # จัดการกับรูปภาพใหม่ที่ถูกอัปโหลด
+            images = request.FILES.getlist('image')  # ดึงไฟล์ภาพที่ถูกส่งมา
+            for image in images:
+                ReviewImage.objects.create(
+                    review=review,
+                    image_file=image,
+                    uploaded_by=request.user
+                )
+
+            return redirect('restaurant_details', id=reviews.restaurant.id)  # Redirect ไปยังหน้ารายละเอียดร้านอาหารหลังบันทึกเสร็จ
+
+        return render(request, 'reviews_edit.html', {
+            'form': form,
+            'reviews': reviews
+        })
+
+
+# LoginRequiredMixin, PermissionRequiredMixin, 
+class ReviewsDeleteView(View):
+    # permission_required = ["reviews.delete_Review"]
+    def post(self, request, id):
+        # ดึงร้านที่ต้องการลบ
+        reviews = Review.objects.get(id=id)
+
+        # ตรวจสอบว่าเป็นเจ้าของหรือไม่ ถ้าไม่ใช่ให้แสดง PermissionDenied
+        if reviews.user != request.user and not request.user.is_staff:
+            print("คุณไม่มีสิทธิ์ในการลบร้านนี้")
+            # raise PermissionDenied("คุณไม่มีสิทธิ์ในการลบร้านนี้")
+
+        # ลบร้าน
+        reviews.delete()
+
+        # Redirect ไปที่หน้ารายการร้านอาหารหลังจากลบเสร็จ
+        return redirect('profile')
 
