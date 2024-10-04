@@ -12,7 +12,7 @@ class RestaurantMainView(View):
     def get(self, request):
         return render(request, 'restaurant_main.html')
 
-class RestauranLlistView(View):
+class RestaurantListView(View):
     def get(self, request):
         # Create the form
         form = SearchForm(request.GET or None)
@@ -35,9 +35,12 @@ class RestauranLlistView(View):
             if restaurant_type:
                 restaurants = restaurants.filter(restaurant_types__id=restaurant_type.id)
 
-    
+        # ดึงรายการโปรดของผู้ใช้
+        user_favorites = Favorite.objects.filter(user=request.user).values_list('restaurant_id', flat=True)
+
         return render(request, 'restaurant_list.html', {
             'restaurants': restaurants,
+            'user_favorites': user_favorites,  # ส่งรายการโปรดเข้าไปใน context
         })
 
 
@@ -278,4 +281,26 @@ class RestaurantDeleteView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
         # Redirect ไปที่หน้ารายการร้านอาหารหลังจากลบเสร็จ
         return redirect('profile')
+
+
+
+from django.http import HttpResponse
+
+class RestaurantFavourite(LoginRequiredMixin, View):
+
+    def post(self, request, restaurant_id):
+        restaurant = Restaurant.objects.get(id=restaurant_id)
+
+        # ตรวจสอบว่ามีรายการโปรดอยู่แล้วหรือไม่
+        favorite = Favorite.objects.filter(user=request.user, restaurant=restaurant).first()
+
+        if favorite:
+            # หากมีรายการโปรดอยู่แล้ว ให้ลบออก
+            favorite.delete()
+        else:
+            # หากไม่มีรายการโปรด ให้สร้างขึ้นมา
+            Favorite.objects.create(user=request.user, restaurant=restaurant)
+
+        # ส่งสถานะ 204 (ไม่มีเนื้อหา)
+        return HttpResponse(status=204)
 

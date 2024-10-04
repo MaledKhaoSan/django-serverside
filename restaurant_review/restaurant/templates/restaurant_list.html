@@ -96,22 +96,32 @@
 
                         <div class="flex justify-between items-center">
                             <div class="flex space-x-4">
-                                <button class="bg-blue-500 hover:bg-blue-700 text-white flex justify-center items-center space-x-1 px-2 py-0.5 h-fit rounded-lg">
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white flex justify-center items-center space-x-1 px-2 py-0.5 h-fit rounded-lg">
                                     <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                         <path fill-rule="evenodd" d="M3.559 4.544c.355-.35.834-.544 1.33-.544H19.11c.496 0 .975.194 1.33.544.356.35.559.829.559 1.331v9.25c0 .502-.203.981-.559 1.331-.355.35-.834.544-1.33.544H15.5l-2.7 3.6a1 1 0 0 1-1.6 0L8.5 17H4.889c-.496 0-.975-.194-1.33-.544A1.868 1.868 0 0 1 3 15.125v-9.25c0-.502.203-.981.559-1.331ZM7.556 7.5a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2h-8Zm0 3.5a1 1 0 1 0 0 2H12a1 1 0 1 0 0-2H7.556Z" clip-rule="evenodd"/>
                                     </svg>                          
                                     <span class="font-medium text-base">เขียนรีวิว</span>
                                 </button>
 
-                                <button href=""  class="bg-blue-500 hover:bg-blue-700 text-white flex justify-center items-center space-x-1 px-2 py-0.5 h-fit rounded-lg">
-                                    <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z"/>
-                                    </svg>                       
-                                    <span class="font-medium text-base">บันทึก</span>
-                                </button>
+                                {% if r.id in user_favorites %}
+                                    <div data-url="{% url 'restaurant_favourite' r.id %}" class="favourite-btn cursor-pointer bg-gray-200 text-black flex justify-center items-center space-x-1 px-2 py-0.5 h-fit rounded-lg">
+                                        <svg class="w-4 h-4 text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z"/>
+                                        </svg>                       
+                                        <span class="font-medium text-base">บันทึก</span>
+                                    </div>
+                                {% else %}
+                                    <div data-url="{% url 'restaurant_favourite' r.id %}" class="favourite-btn cursor-pointer bg-gray-200 text-black flex justify-center items-center space-x-1 px-2 py-0.5 h-fit rounded-lg">
+                                        <svg class="w-4 h-4 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M7.833 2c-.507 0-.98.216-1.318.576A1.92 1.92 0 0 0 6 3.89V21a1 1 0 0 0 1.625.78L12 18.28l4.375 3.5A1 1 0 0 0 18 21V3.889c0-.481-.178-.954-.515-1.313A1.808 1.808 0 0 0 16.167 2H7.833Z"/>
+                                        </svg>                       
+                                        <span class="font-medium text-base">บันทึก</span>
+                                    </div>
+                                {% endif %}
 
-                                <button class="bg-blue-500 hover:bg-blue-700 text-white flex justify-center items-center space-x-1 px-2 py-0.5 h-fit rounded-lg">
-                                    <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+
+                                <button class="bg-gray-200 hover:bg-gray-300 text-black flex justify-center items-center space-x-1 px-2 py-0.5 h-fit rounded-lg">
+                                    <svg class="w-4 h-4 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M17.5 3a3.5 3.5 0 0 0-3.456 4.06L8.143 9.704a3.5 3.5 0 1 0-.01 4.6l5.91 2.65a3.5 3.5 0 1 0 .863-1.805l-5.94-2.662a3.53 3.53 0 0 0 .002-.961l5.948-2.667A3.5 3.5 0 1 0 17.5 3Z"/>
                                     </svg>    
                                     <span class="font-medium text-base">แชร์</span>
@@ -122,9 +132,42 @@
                 {% empty %}
                     <p>No restaurants found in this province.</p>
                 {% endfor %}
-
-                
             </div>
         </div>
     </div>
+
+    
+
+    <script>
+        document.querySelectorAll('.favourite-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const url = this.getAttribute('data-url');
+                const icon = this.querySelector('svg');  // Get the svg inside the clicked button
+    
+                // Toggle between text-blue-500 and text-black classes
+                if (icon.classList.contains('text-blue-500')) {
+                    icon.classList.replace('text-blue-500', 'text-black');
+                } else {
+                    icon.classList.replace('text-black', 'text-blue-500');
+                }
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',  // Include CSRF token for Django
+                    },
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();  // Optional if you want to handle a response
+                    } else {
+                        throw new Error('Failed to toggle favourite');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
+    
 {% endblock %}
